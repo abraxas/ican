@@ -32,18 +32,17 @@ var transportSend = function(service, name, args) {
 
 
 var registerService = function(service, cb) {
-    var icanSrv = {
-        can: function(name,cb) {
+    var offerSrv = {
+        to: function (name, cb) {
             transport.listen(service, name, function(args, done) {
                 var cmdPromise = Promise.resolve(cb(args)).timeout(5000);
                 cmdPromise.then(function(result) { done(null, result) });
                 cmdPromise.error(function(err) { done(err) });
             });
-            //transportRegister(serviceName,name,cb);
         }
     };
 
-    cb(icanSrv);
+    cb(offerSrv);
 
 }; 
 
